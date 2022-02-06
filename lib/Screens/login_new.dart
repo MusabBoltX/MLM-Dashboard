@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import 'package:mlm_dashboard/Screens/signUp_new.dart';
 import 'package:mlm_dashboard/Screens/signup.dart';
 import 'package:mlm_dashboard/colors.dart';
 import 'package:mlm_dashboard/widgets/appBar/app_bar.dart';
+
 //import 'package:mlm_dashboard/widgets/login&signup/custombutton.dart';
 import 'package:mlm_dashboard/widgets/login&signup/customdecoration.dart';
 import 'package:mlm_dashboard/widgets/login&signup/signUpbutton.dart';
@@ -23,10 +25,19 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var password = "";
+
+  @override
+  void initState(){
+    Future.delayed(Duration(seconds: 2),(){
+      _settingModalBottomSheet(context);
+    });
+    super.initState();
+  }
 
   Future _loginInfo() async {
     try {
@@ -48,11 +59,13 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    var _width = MediaQuery.of(context).size.width;
+    var _height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Row(
         children: [
           Container(
-            width: 1070,
+            width: _width * 0.65,
             decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('assets/images/login_final_2.png'),
@@ -88,10 +101,10 @@ class _LoginState extends State<Login> {
               ],
             ),
           ),
-          Container(
-            height: double.infinity,
-            width: 466,
-            color: Colors.white,
+          Expanded(
+            // height: double.infinity,
+            // width: 466,
+            // color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.only(
                   left: 40, right: 40, top: 100, bottom: 100),
@@ -194,17 +207,17 @@ class _LoginState extends State<Login> {
                             press: () async {
                               if (userNameController.text.isNotEmpty &&
                                   passwordController.text.isNotEmpty) {
-                                _loginInfo();
-                                var box = await Hive.openBox('auth');
+                                // _loginInfo();
+                                // var box = await Hive.openBox('auth');
 
-                                if (box.get('access_token') != null) {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => MyHomePage()));
-                                }
+                                // if (box.get('access_token') != null) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyHomePage()));
+                                // }
 
-                                box.close();
+                                // box.close();
                                 // final prefs =
                                 //     await SharedPreferences.getInstance();
                                 // prefs.setString(
@@ -279,6 +292,91 @@ class _LoginState extends State<Login> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.mail),
+        onPressed: () {
+          _settingModalBottomSheet(context);
+        },
+      ),
     );
+  }
+
+  void _settingModalBottomSheet(context) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        builder: (BuildContext bc) {
+          return Container(
+            width: MediaQuery.of(context).size.width * 0.35,
+            height: MediaQuery.of(context).size.height * 0.4,
+            // color: Colors.black26,
+            padding: EdgeInsets.all(15.0),
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              body: Align(
+                alignment: Alignment.centerRight,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.38,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Chip(
+                          label: Text('Hi, I am sending this message...'),
+                        ),
+                        SizedBox(height: 10),
+                        Chip(
+                          label: Text('How are you?'),
+                        ),
+                        SizedBox(height: 10),
+                        Chip(
+                          label: Text('I am waiting outside'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              bottomNavigationBar: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: TextFormField(
+                      cursorColor: Colors.black54,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.black12,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide:
+                              BorderSide(width: 2.5, color: Colors.transparent),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
+                        suffixIcon: Icon(
+                          Icons.send,
+                          color: Colors.black,
+                        ),
+                        hintText: 'Type your message...',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

@@ -23,72 +23,74 @@ class _StepperDemoState extends State<Checkout> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      //crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: AppBarNotificationBar(),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: Container(
-            // color: secondaryColor,
-            height: 600,
+    return SingleChildScrollView(
+      child: Column(
+        //crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: AppBarNotificationBar(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Container(
+              // color: secondaryColor,
+              height: 600,
 
-            child: Card(
-              color: secondaryColor,
-              elevation: 5,
-              child: Stepper(
-                type: stepperType,
-                physics: ScrollPhysics(),
-                currentStep: _currentStep,
-                onStepTapped: (step) => tapped(step),
-                onStepContinue: continued,
-                onStepCancel: cancel,
-                steps: <Step>[
-                  Step(
-                    //Step # 1
-                    title: new Text('Packages'),
-                    content: Packages(),
-                    isActive: _currentStep >= 0,
-                    state: _currentStep >= 0
-                        ? StepState.complete
-                        : StepState.disabled,
-                  ),
-                  Step(
-                    //Step # 2
-                    title: new Text('Contact Information'),
-                    content: InfoContact(),
-                    isActive: _currentStep >= 0,
-                    state: _currentStep >= 1
-                        ? StepState.complete
-                        : StepState.disabled,
-                  ),
-                  Step(
-                    //Step # 3
-                    title: new Text('Order Summary'),
-                    content: OrderSummary(),
-                    isActive: _currentStep >= 0,
-                    state: _currentStep >= 2
-                        ? StepState.complete
-                        : StepState.disabled,
-                  ),
-                  Step(
-                    //Step # 4
-                    title: new Text('Order Summary'),
-                    content: InfoContact(),
-                    isActive: _currentStep >= 0,
-                    state: _currentStep >= 3
-                        ? StepState.complete
-                        : StepState.disabled,
-                  ),
-                ],
+              child: Card(
+                color: secondaryColor,
+                elevation: 5,
+                child: Stepper(
+                  type: stepperType,
+                  physics: ScrollPhysics(),
+                  currentStep: _currentStep,
+                  onStepTapped: (step) => tapped(step),
+                  onStepContinue: continued,
+                  onStepCancel: cancel,
+                  steps: <Step>[
+                    Step(
+                      //Step # 1
+                      title: new Text('Packages'),
+                      content: Packages(),
+                      isActive: _currentStep >= 0,
+                      state: _currentStep >= 0
+                          ? StepState.complete
+                          : StepState.disabled,
+                    ),
+                    Step(
+                      //Step # 2
+                      title: new Text('Contact Information'),
+                      content: InfoContact(),
+                      isActive: _currentStep >= 0,
+                      state: _currentStep >= 1
+                          ? StepState.complete
+                          : StepState.disabled,
+                    ),
+                    Step(
+                      //Step # 3
+                      title: new Text('Order Summary'),
+                      content: OrderSummary(),
+                      isActive: _currentStep >= 0,
+                      state: _currentStep >= 2
+                          ? StepState.complete
+                          : StepState.disabled,
+                    ),
+                    Step(
+                      //Step # 4
+                      title: new Text('Order Summary'),
+                      content: InfoContact(),
+                      isActive: _currentStep >= 0,
+                      state: _currentStep >= 3
+                          ? StepState.complete
+                          : StepState.disabled,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
