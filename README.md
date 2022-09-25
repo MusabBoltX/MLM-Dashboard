@@ -1,6 +1,6 @@
 # mlm_dashboard
 
-A new Flutter project.
+A Flutter Web Project
 
 ## Getting Started
 
